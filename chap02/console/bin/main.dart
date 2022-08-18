@@ -4,10 +4,4 @@ import 'package:console/02-strings.dart';
 main() {
   variablePlayground();
   stringPlayground();
-  functionPlayground();
-  classPlayground();
-  genericsPlayground();
-  collectionPlayground();
-  higherOrderFunctions();
-  cascadePlayground();
 }
