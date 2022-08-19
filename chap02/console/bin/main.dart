@@ -4,6 +4,7 @@ import 'package:console/03-functions.dart';
 import 'package:console/04-classes.dart';
 import 'package:console/05-generics.dart';
 import 'package:console/06-collections.dart';
+import 'package:console/07-higher-order-functions.dart';
 
 main() {
   variablePlayground();
@@ -12,4 +13,5 @@ main() {
   classPlayground();
   genericsPlayground();
   collectionPlayground();
+  higherOrderFunctions();
 }
