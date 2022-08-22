@@ -1,3 +1,4 @@
+import 'package:chap04/star.dart';
 import 'package:flutter/material.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -44,6 +45,9 @@ class ProfileScreen extends StatelessWidget {
           const Text(
             'Pharaoh Khufu',
             style: TextStyle(fontSize: 35, fontWeight: FontWeight.w900),
+          ),
+          const StarRating( 
+            value: 5,
           ),
           _buildDetailsRow('Age', '678909'),
           _buildDetailsRow('Status', 'DemiGod'),

@@ -1,6 +1,5 @@
+import 'package:chap04/profile_screen.dart';
 import 'package:flutter/material.dart';
-
-import 'flex_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -13,7 +12,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return const MaterialApp(
       title: 'cookbook',
-      home: FlexScreen(),
+      home: ProfileScreen(),
     );
   }
 }
