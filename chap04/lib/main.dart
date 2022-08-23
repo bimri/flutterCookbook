@@ -1,5 +1,6 @@
-import 'package:chap04/profile_screen.dart';
 import 'package:flutter/material.dart';
+
+import 'deep_tree.dart';
 
 void main() {
   runApp(const MyApp());
@@ -12,7 +13,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return const MaterialApp(
       title: 'cookbook',
-      home: ProfileScreen(),
+      home: DeepTree(),
     );
   }
 }
