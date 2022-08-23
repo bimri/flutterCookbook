@@ -8,14 +8,13 @@ class ECommerceScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.purple,
       appBar: _buildAppBar(),
       body: Padding(
         padding: const EdgeInsets.all(20.0),
         child: SingleChildScrollView(
           child: Column(
             children: <Widget>[
-              _buildToggleBar(),
+              _buildToggleBar(context),
               Image.asset('assets/woman_shopping.jpg'),
               const DealButtons(),
               _buildProductTile(context),
@@ -29,7 +28,7 @@ class ECommerceScreen extends StatelessWidget {
   Container _buildProductTile(BuildContext context) {
     return Container(
       height: 200,
-      color: Colors.white,
+      color: Theme.of(context).cardColor,
       child: Row(
         children: <Widget>[
           Image.asset(
@@ -58,49 +57,35 @@ class ECommerceScreen extends StatelessWidget {
     );
   }
 
-  Row _buildToggleBar() {
+  Row _buildToggleBar(BuildContext context) {
     return Row(
-      children: const <Widget>[
-        Padding(
-          padding: EdgeInsets.all(8.0),
-          child: Text(
-            'Recommended',
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 17,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ),
-        Padding(
-          padding: EdgeInsets.all(8.0),
-          child: Text(
-            'Formal Wear',
-            style: TextStyle(
-              color: Colors.white54,
-              fontSize: 17,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ),
-        Padding(
-          padding: EdgeInsets.all(8.0),
-          child: Text(
-            'Casual Wear',
-            style: TextStyle(
-              color: Colors.white54,
-              fontSize: 17,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ),
+      children: <Widget>[
+        _buildToggleItem(context, 'Recommended', selected: true),
+        _buildToggleItem(context, 'Formal Wear'),
+        _buildToggleItem(context, 'Casual Wear'),
       ],
+    );
+  }
+
+  Padding _buildToggleItem(BuildContext context, String text,
+      {bool selected = false}) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Text(
+        text,
+        style: TextStyle(
+          fontSize: 17,
+          color: selected
+              ? null
+              : Theme.of(context).textTheme.titleSmall?.color!.withOpacity(0.5),
+          fontWeight: selected ? FontWeight.bold : null,
+        ),
+      ),
     );
   }
 
   AppBar _buildAppBar() {
     return AppBar(
-      backgroundColor: Colors.purpleAccent,
       shape: const RoundedRectangleBorder(
           borderRadius:
               const BorderRadius.vertical(bottom: const Radius.circular(30))),
@@ -109,7 +94,6 @@ class ECommerceScreen extends StatelessWidget {
         child: Icon(Icons.home),
       ),
       title: const Text('Let\'s go shopping!'),
-      elevation: 0,
       actions: const <Widget>[
         Padding(
           padding: EdgeInsets.all(20.0),

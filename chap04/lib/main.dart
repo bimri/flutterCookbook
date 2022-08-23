@@ -11,9 +11,21 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       title: 'cookbook',
-      home: ECommerceScreen(),
+      theme: ThemeData(
+        brightness: Brightness.light,
+        primaryColor: Colors.green,
+        appBarTheme: const AppBarTheme(
+          elevation: 10,
+          titleTextStyle: TextStyle(
+            fontFamily: 'LeckerliOne',
+            fontSize: 24,
+          ),
+        ),
+      ),
+      home: const ECommerceScreen(),
     );
   }
 }
+ 
