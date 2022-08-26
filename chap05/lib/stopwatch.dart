@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:chap05/platform_alert.dart';
 import 'package:flutter/material.dart';
 
 /*
@@ -69,6 +70,13 @@ class _StopWatchState extends State<StopWatch> {
     setState(() {
       isTicking = false;
     });
+
+    // final totalRuntime = laps.fold(milliseconds, (total, lap) => total + lap);
+    // final alert = PlatformAlert(
+    //   title: 'Run Completed!',
+    //   message: 'Total Run Time is ${_secondsText(totalRuntime)}.',
+    // );
+    // alert.show(context);
   }
 
   void _lap() {
@@ -91,7 +99,7 @@ class _StopWatchState extends State<StopWatch> {
 
   @override
   Widget build(BuildContext context) {
-  /*
+    /*
   This code is not safe in itself. There is no guarantee that the value that was passed into the
   arguments is a string or even exists at all. If the object that created this route decided to put
   an integer or a Map into the arguments property, then this line would throw an
@@ -102,11 +110,11 @@ class _StopWatchState extends State<StopWatch> {
   so safely. For these reasons, it's recommended that you use manually constructed routes
   when you need to pass data back and forth between your screens.
   */
-   Object? name = ModalRoute.of(context)?.settings.arguments;
+    Object? name = ModalRoute.of(context)?.settings.arguments;
 
     return Scaffold(
       appBar: AppBar(
-        title:  Text('$name'),
+        title: Text('$name'),
       ),
       body: Column(
         children: <Widget>[
