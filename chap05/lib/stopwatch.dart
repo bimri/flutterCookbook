@@ -13,10 +13,11 @@ All widgets, whether they are stateless or stateful, are still immutable. In
 Stateful widgets, the state can change.
 */
 class StopWatch extends StatefulWidget {
-  final String name;
-  final String email;
-  const StopWatch({Key? key, required this.email, required this.name})
-      : super(key: key);
+  static const route = '/stopwatch';
+
+  final String? name;
+  final String? email;
+  const StopWatch({Key? key, this.email, this.name}) : super(key: key);
 
   @override
   State<StopWatch> createState() => _StopWatchState();
@@ -90,9 +91,22 @@ class _StopWatchState extends State<StopWatch> {
 
   @override
   Widget build(BuildContext context) {
+  /*
+  This code is not safe in itself. There is no guarantee that the value that was passed into the
+  arguments is a string or even exists at all. If the object that created this route decided to put
+  an integer or a Map into the arguments property, then this line would throw an
+  exception, causing the red error screen to take over your whole app. Because of this, you
+  need to be especially careful when working with route arguments.
+
+  Passing arguments through named routes requires some effort, especially if you want to do
+  so safely. For these reasons, it's recommended that you use manually constructed routes
+  when you need to pass data back and forth between your screens.
+  */
+   Object? name = ModalRoute.of(context)?.settings.arguments;
+
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.name),
+        title:  Text('$name'),
       ),
       body: Column(
         children: <Widget>[

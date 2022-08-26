@@ -2,6 +2,8 @@ import 'package:chap05/stopwatch.dart';
 import 'package:flutter/material.dart';
 
 class LoginScreen extends StatefulWidget {
+  static const route = '/login';
+
   const LoginScreen({Key? key}) : super(key: key);
 
   @override
@@ -16,6 +18,7 @@ class _LoginScreenState extends State<LoginScreen> {
   String name = 'username';
   @override
   Widget build(BuildContext context) {
+    
     return Scaffold(
       appBar: AppBar(
         title: const Text('Login'),
@@ -26,18 +29,18 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  Widget _buildSuccess() {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
-        const Icon(
-          Icons.check,
-          color: Colors.orangeAccent,
-        ),
-        Text('Hi $name'),
-      ],
-    );
-  }
+  // Widget _buildSuccess() {
+  //   return Column(
+  //     mainAxisAlignment: MainAxisAlignment.center,
+  //     children: <Widget>[
+  //       const Icon(
+  //         Icons.check,
+  //         color: Colors.orangeAccent,
+  //       ),
+  //       Text('Hi $name'),
+  //     ],
+  //   );
+  // }
 
   Widget _buildLoginForm() {
     return Form(
@@ -105,11 +108,10 @@ class _LoginScreenState extends State<LoginScreen> {
     This allows Flutter to delay the construction of the widget until it's needed. We also didn't
     need the context property, so it was replaced with an underscore.
     */
-
-    Navigator.of(context).pushReplacement(
-      MaterialPageRoute(
-        builder: (_) => StopWatch(name: name, email: email),
-      ),
+    
+    Navigator.of(context).pushReplacementNamed(
+      StopWatch.route,
+      arguments: name,
     );
   }
 }
