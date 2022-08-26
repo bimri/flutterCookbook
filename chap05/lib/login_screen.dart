@@ -1,0 +1,126 @@
+import 'package:chap05/stopwatch.dart';
+import 'package:flutter/material.dart';
+
+class LoginScreen extends StatefulWidget {
+  const LoginScreen({Key? key}) : super(key: key);
+
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  final _nameController = TextEditingController();
+  final _emailController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
+
+  bool loggedIn = false;
+  String name = 'username';
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Login'),
+      ),
+      body: Center(
+        child: loggedIn ? _buildSuccess() : _buildLoginForm(),
+      ),
+    );
+  }
+
+  Widget _buildSuccess() {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: <Widget>[
+        const Icon(
+          Icons.check,
+          color: Colors.orangeAccent,
+        ),
+        Text('Hi $name'),
+      ],
+    );
+  }
+
+  Widget _buildLoginForm() {
+    return Form(
+      key: _formKey,
+      child: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            TextFormField(
+              controller: _nameController,
+              decoration: const InputDecoration(labelText: 'Runner'),
+              validator: (text) =>
+                  text!.isEmpty ? 'Enter the runner\'s name.' : null,
+            ),
+            TextFormField(
+              controller: _emailController,
+              keyboardType: TextInputType.emailAddress,
+              decoration: const InputDecoration(labelText: 'Email'),
+              validator: (text) {
+                if (text!.isEmpty) {
+                  return 'Enter the runner\'s email.';
+                }
+
+                final regex = RegExp('[^@]+@[^\.]+\..+');
+                if (!regex.hasMatch(text)) {
+                  return 'Enter a valid email';
+                }
+                return null;
+              },
+            ),
+            const SizedBox(height: 20),
+            ElevatedButton(
+              onPressed: _validate,
+              child: const Text('Continue'),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  void _validate() {
+    final form = _formKey.currentState;
+    if (!form!.validate()) {
+      return;
+    }
+    final name = _nameController.text;
+    final email = _emailController.text;
+
+    // Navigator.of(context).pushReplacementNamed(
+    //   StopWatch.route,
+    //   arguments: name,
+    // );
+  }
+}
+
+
+/*
+1. Article and video about keys by Emily Fortuna. Don't miss this one!: 
+  https://medium.com/flutter/keys-what-are-they-good-for-13cb51742e7d
+
+2. Forms: 
+https://api.flutter.dev/flutter/widgets/Form-class.html
+
+TextEditingControllers are objects that can be used to manipulate TextFields. 
+    we only used them to extract the current value from our TextField, but they can
+    also be used to programmatically set values in the widget, update text selections, and clear
+    the fields.
+
+The first validator is simple – it just checks if the text is empty. Validator functions
+should return a string if the validation fails. If the validation is successful, then the function
+should return a null. This is one of the very few cases in the entire Flutter SDK
+where null is a good thing.
+
+The Form widget that wraps the two TextFields is a non-rendering container widget. This
+widget knows how to visit any of its children that are FormFields and invokes their
+validators. If all the validator functions return null, the form is considered valid.
+You used a GlobalKey to get access to the form's state class from outside the build
+method. A simple way to explain GlobalKeys is that they do the opposite of
+BuildContext. BuildContext is an object that can find parents in the widget tree. Keys
+are objects that are used to retrieve a child widget. The topic is a bit more complex than
+that, but in short, with the key, you can retrieve the Form's state. The FormState class has a
+public method called validate that will call the validator on all its children.
+*/
