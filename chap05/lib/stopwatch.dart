@@ -20,14 +20,23 @@ class StopWatch extends StatefulWidget {
 }
 
 class _StopWatchState extends State<StopWatch> {
-  late int milliseconds = 0;
+  int milliseconds = 0;
   bool isTicking = true;
-  late int seconds = 0;
+  int seconds = 0;
   late Timer timer;
 
   final laps = <int>[];
 
-  @override
+  /* 
+  new feature for the list to scroll to the bottom every time the
+  lap button is tapped. Flutter makes this easy with the ScrollController class.
+
+  link these values with ListView by feeding them into the
+  widget's constructor: ListView.builder Widget 
+  */
+  final itemHeight = 60.0;
+  final scrollController = ScrollController();
+
   // performing a job similar to a constructor
   //
 
@@ -35,7 +44,7 @@ class _StopWatchState extends State<StopWatch> {
   avoid performing any complex operations inside the setState closure
   since that can cause performance bottlenecks.
   */
-  void _onTick(Timer time) {
+  void _onTick(Timer timer) {
     setState(() {
       milliseconds += 100;
     });
@@ -45,9 +54,8 @@ class _StopWatchState extends State<StopWatch> {
     timer = Timer.periodic(const Duration(milliseconds: 100), _onTick);
 
     setState(() {
-      seconds = 0;
-      isTicking = true;
       laps.clear();
+      isTicking = true;
     });
   }
 
@@ -60,6 +68,12 @@ class _StopWatchState extends State<StopWatch> {
   }
 
   void _lap() {
+    // tell ListView to scroll when a new lap is added
+    scrollController.animateTo(
+      itemHeight * laps.length,
+      duration: const Duration(milliseconds: 500),
+      curve: Curves.easeIn,
+    );
     setState(() {
       laps.add(milliseconds);
       milliseconds = 0;
@@ -74,7 +88,7 @@ class _StopWatchState extends State<StopWatch> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar( 
+      appBar: AppBar(
         title: const Text('masaa'),
       ),
       body: Column(
@@ -168,28 +182,52 @@ class _StopWatchState extends State<StopWatch> {
   }
 
   Widget _buildLapDisplay() {
-    return ListView(
-      /*
-      One other interesting thing about scrolling in Flutter is that it is platform aware. If you can,
-      try running the app in both the Android Emulator and the iOS Simulator; you'll notice that
-      the scroll feels different. What you are encountering is something called ScrollPhysics.
-      These are objects that define how the list is supposed to scroll and what happens when you
-      get to the end of the list. On iOS, the list is supposed to bounce, whereas, on Android, you
-      get a glow effect when you get to the edges. The widget can pick the correct
-      ScrollPhysics strategy based on the platform, but you can also override this behavior if
-      you want to make the app behave in a particular way, regardless of the platform:
+    //  ScrollViews can get too big, so it's usually a good idea to show the user their
+    //  position in the list. Wrap ListView in a Scrollbar widget.
+    return Scrollbar(
+      child: ListView.builder(
+        /*
+        One other interesting thing about scrolling in Flutter is that it is platform aware. If you can,
+        try running the app in both the Android Emulator and the iOS Simulator; you'll notice that
+        the scroll feels different. What you are encountering is something called ScrollPhysics.
+        These are objects that define how the list is supposed to scroll and what happens when you
+        get to the end of the list. On iOS, the list is supposed to bounce, whereas, on Android, you
+        get a glow effect when you get to the edges. The widget can pick the correct
+        ScrollPhysics strategy based on the platform, but you can also override this behavior if
+        you want to make the app behave in a particular way, regardless of the platform:
+    
+        You generally shouldn't override the platform's expected behavior, unless
+        there is a good reason for doing so. It might confuse your users if they
+        start adding iOS paradigms on Android and vice versa.
+        */
+        // physics: const BouncingScrollPhysics(),
 
-      You generally shouldn't override the platform's expected behavior, unless
-      there is a good reason for doing so. It might confuse your users if they
-      start adding iOS paradigms on Android and vice versa.
-      */
-      // physics: const BouncingScrollPhysics(),
-      children: [
-        for (int milliseconds in laps)
-          ListTile(
-            title: Text(_secondsText(milliseconds)),
-          )
-      ],
+        /* 
+        ScrollController is a special object that allows to key into ListView from outside the
+        build methods. This is a frequently used pattern in Flutter where you can optionally
+        provide a controller object that has methods to manipulate its
+        widget.
+        */
+        controller: scrollController,
+
+        /*
+        The itemExtent property is a way to supply a fixed height to all the items in ListView.
+        Instead of letting the widget figure out its own height based on the content, using
+        the itemExtent property will enforce a fixed height for every item. This has added
+        performance benefits, since ListView now needs to do less work when laying out its
+        children, and it also makes it easier to calculate scrolling animations.
+        */
+        itemExtent: itemHeight,
+        itemCount: laps.length,
+        itemBuilder: (context, index) {
+          final milliseconds = laps[index];
+          return ListTile(
+            contentPadding: const EdgeInsets.symmetric(horizontal: 50),
+            title: Text('Lap ${index + 1}'),
+            trailing: Text(_secondsText(milliseconds)),
+          );
+        },
+      ),
     );
   }
 
