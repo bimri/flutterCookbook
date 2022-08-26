@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:chap05/platform_alert.dart';
 import 'package:flutter/material.dart';
 
 /*
@@ -64,7 +63,7 @@ class _StopWatchState extends State<StopWatch> {
     });
   }
 
-  void _stopTimer() {
+  void _stopTimer(BuildContext context) {
     timer.cancel();
 
     setState(() {
@@ -77,6 +76,29 @@ class _StopWatchState extends State<StopWatch> {
     //   message: 'Total Run Time is ${_secondsText(totalRuntime)}.',
     // );
     // alert.show(context);
+    final controller =
+        showBottomSheet(context: context, builder: _buildRunCompleteSheet);
+
+    Future.delayed(const Duration(seconds: 5)).then((_) {
+      controller.close();
+    });
+  }
+
+  Widget _buildRunCompleteSheet(BuildContext context) {
+    final totalRuntime = laps.fold(milliseconds, (total, lap) => total + lap);
+    final textTheme = Theme.of(context).textTheme;
+
+    return SafeArea(
+        child: Container(
+      color: Theme.of(context).cardColor,
+      width: double.infinity,
+      child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 30.0),
+          child: Column(mainAxisSize: MainAxisSize.min, children: [
+            Text('Run Finished!', style: textTheme.headline6),
+            Text('Total Run Time is ${_secondsText(totalRuntime)}.')
+          ])),
+    ));
   }
 
   void _lap() {
@@ -172,7 +194,7 @@ class _StopWatchState extends State<StopWatch> {
     );
   }
 
-  Widget _buildControls() {
+  Row _buildControls() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
@@ -184,9 +206,7 @@ class _StopWatchState extends State<StopWatch> {
           onPressed: isTicking ? null : _startTimer,
           child: const Text('Start'),
         ),
-        const SizedBox(
-          width: 20,
-        ),
+        const SizedBox(width: 20),
         ElevatedButton(
           style: ButtonStyle(
             backgroundColor: MaterialStateProperty.all<Color>(Colors.yellow),
@@ -195,13 +215,16 @@ class _StopWatchState extends State<StopWatch> {
           child: const Text('Lap'),
         ),
         const SizedBox(width: 20),
-        TextButton(
-          style: ButtonStyle(
+        Builder(
+          builder: (context) => TextButton(
+            style: ButtonStyle(
               backgroundColor: MaterialStateProperty.all<Color>(Colors.red),
-              foregroundColor: MaterialStateProperty.all<Color>(Colors.white)),
-          onPressed: isTicking ? _stopTimer : null,
-          child: const Text('Stop'),
-        )
+              foregroundColor: MaterialStateProperty.all<Color>(Colors.white),
+            ),
+            onPressed: isTicking ? () => _stopTimer(context) : null,
+            child: const Text('Stop'),
+          ),
+        ),
       ],
     );
   }
