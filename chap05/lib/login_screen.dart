@@ -13,7 +13,6 @@ class _LoginScreenState extends State<LoginScreen> {
   final _emailController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
 
-  bool loggedIn = false;
   String name = 'username';
   @override
   Widget build(BuildContext context) {
@@ -22,7 +21,7 @@ class _LoginScreenState extends State<LoginScreen> {
         title: const Text('Login'),
       ),
       body: Center(
-        child: loggedIn ? _buildSuccess() : _buildLoginForm(),
+        child: _buildLoginForm(),
       ),
     );
   }
@@ -89,10 +88,29 @@ class _LoginScreenState extends State<LoginScreen> {
     final name = _nameController.text;
     final email = _emailController.text;
 
-    // Navigator.of(context).pushReplacementNamed(
-    //   StopWatch.route,
-    //   arguments: name,
-    // );
+    // Isn't it a little strange that you can hit a back button to return to a login
+    // screen? In most apps, once you've logged in, that screen should no longer be
+    // accessible. You can use the `Navigator's pushReplacement method` to achieve
+    // this:
+
+    /* 
+    We also used the MaterialPageRoute class to represent our routes. This object will create
+    a platform-aware transition between the two screens. On iOS, it will push onto the screen
+    from right, while on Android, it will pop onto the screen from the bottom.
+
+    Similar to ListView.builder, MaterialPageRoute also expects
+    a WidgetBuilder instead of direct child. WidgetBuilder is a function that provides
+    a BuildContext and expects a Widget to be returned:
+    builder: (_) => StopWatch(name: name, email: email),
+    This allows Flutter to delay the construction of the widget until it's needed. We also didn't
+    need the context property, so it was replaced with an underscore.
+    */
+
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute(
+        builder: (_) => StopWatch(name: name, email: email),
+      ),
+    );
   }
 }
 

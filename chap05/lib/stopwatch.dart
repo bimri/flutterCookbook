@@ -13,7 +13,10 @@ All widgets, whether they are stateless or stateful, are still immutable. In
 Stateful widgets, the state can change.
 */
 class StopWatch extends StatefulWidget {
-  const StopWatch({Key? key}) : super(key: key);
+  final String name;
+  final String email;
+  const StopWatch({Key? key, required this.email, required this.name})
+      : super(key: key);
 
   @override
   State<StopWatch> createState() => _StopWatchState();
@@ -89,7 +92,7 @@ class _StopWatchState extends State<StopWatch> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('masaa'),
+        title: Text(widget.name),
       ),
       body: Column(
         children: <Widget>[
