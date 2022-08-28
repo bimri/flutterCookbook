@@ -1,0 +1,12 @@
+Model-view separation
+
+Models and views are very important concepts in app architecture. Models are classes that
+deal with the data for an app, while views are classes that present that data on screen.
+In Flutter, the closest analogy we have to views are widgets. Subsequently, a model would
+be a basic dart class that doesn't inherit from anything in the Flutter framework. Each one
+of these classes is responsible for one and only one job. Models are concerned with
+maintaining the data for your app. Views are concerned with drawing your interface. When
+you keep a clear and strict separation between your models and views, your code will
+become simpler and easier to work with.
+In this recipe, we're going to build the start of our Todo app and create a model graph to go
+along with our views.
