@@ -10,3 +10,26 @@ you keep a clear and strict separation between your models and views, your code 
 become simpler and easier to work with.
 In this recipe, we're going to build the start of our Todo app and create a model graph to go
 along with our views.
+
+When building the UI for each individual task, the State of these widgets is owned by the
+model.
+
+In the onTapped and onChanged callbacks, we take the values that are returned from the
+widgets/views and store them in the model. This, in turn, calls setState, which causes the
+widget to repaint with the most up-to-date data.
+
+Normally, it is not ideal to have your views directly communicate with
+your models. This can still lead to strong coupling with business logic
+leaking into the view layer. This is usually where the fancier patterns such
+as BLoC and Redux come in – they act as the glue between the model and
+the view.
+
+The real reason why you would want to separate the model and view classes has little to do
+with functionality and more to do with productivity. By separating these concepts into
+different components, you can compartmentalize your development process. When you are
+working on a model file, you don't need to think at all about the user interface. At the data
+level, concepts such as buttons, colors, padding, and scrolling are a distraction. The goal of
+the data layer should be to focus on the data and any business rules you need to
+implement. On the other hand, your views do not need to think about the implementation
+details of the data models. In this way, you achieve what's called "separation of concerns,"
+which is a solid development pattern.
