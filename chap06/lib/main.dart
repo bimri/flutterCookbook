@@ -1,3 +1,4 @@
+import 'package:chap06/plan_provider.dart';
 import 'package:flutter/material.dart';
 import './views/plan_screen.dart';
 
@@ -8,7 +9,7 @@ class MasterPlanApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(primarySwatch: Colors.purple),
-      home: PlanScreen(),
+      home: PlanProvider(child: PlanScreen()),
     );
   }
 }

@@ -1,3 +1,4 @@
+import 'package:chap06/plan_provider.dart';
 import 'package:flutter/material.dart';
 
 import '../models/data_layer.dart';
@@ -25,24 +26,32 @@ class _PlanScreenState extends State<PlanScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final plan = PlanProvider.of(context);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Master Plan'),
       ),
-      body: _buildList(),
+      body: Column(
+        children: <Widget>[
+          Expanded(child: _buildList()),
+          SafeArea(child: Text(plan.completenessMessage))
+        ],
+      ),
       floatingActionButton: _buildAddTaskButton(),
     );
   }
 
   Widget _buildAddTaskButton() {
+    final plan = PlanProvider.of(context);
     return FloatingActionButton(
         child: Icon(Icons.add),
         onPressed: () {
-          plan?.tasks.add(Task());
+          plan.tasks.add(Task());
         });
   }
 
   Widget _buildList() {
+    final plan = PlanProvider.of(context);
     return ListView.builder(
       controller: scrollController,
       itemBuilder: (context, index) => _buildTaskTile(plan!.tasks[index]),
@@ -59,8 +68,9 @@ class _PlanScreenState extends State<PlanScreen> {
           });
         },
       ),
-      title: TextField(
-        onChanged: (text) {
+      title: TextFormField(
+        initialValue: task.description,
+        onFieldSubmitted: (text) {
           setState(() {
             task.description = text;
           });
