@@ -56,8 +56,18 @@ class _FuturePageState extends State<FuturePage> {
               //     result = value.toString();
               //   });
               // });
-              
-              returnFB();
+
+              // returnFB();
+
+              returnError().then((value) {
+                setState(() {
+                  result = 'Success';
+                });
+              }).catchError((onError) {
+                setState(() {
+                  result = onError;
+                });
+              }).whenComplete(() => print('Complete'));
             },
           ),
           const Spacer(),
@@ -138,6 +148,10 @@ class _FuturePageState extends State<FuturePage> {
         result = total.toString();
       });
     });
+  }
+
+  Future returnError() {
+    throw ('Something dispecable happened!');
   }
 }
 
