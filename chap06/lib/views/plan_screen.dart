@@ -1,11 +1,12 @@
-import 'package:chap06/plan_provider.dart';
 import 'package:flutter/material.dart';
 
 import '../models/data_layer.dart';
 
 class PlanScreen extends StatefulWidget {
-  final Plan? plan;
-  const PlanScreen({Key? key, this.plan}) : super(key: key);
+  final Plan plan;
+  const PlanScreen({Key? key, required this.plan}) : super(key: key);
+
+  Plan get plan => widget.plan;
 
   @override
   State<PlanScreen> createState() => _PlanScreenState();
@@ -26,7 +27,6 @@ class _PlanScreenState extends State<PlanScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final plan = PlanProvider.of(context);
     return Scaffold(
       appBar: AppBar(
         title: const Text('Master Plan'),
@@ -42,7 +42,6 @@ class _PlanScreenState extends State<PlanScreen> {
   }
 
   Widget _buildAddTaskButton() {
-    final plan = PlanProvider.of(context);
     return FloatingActionButton(
         child: Icon(Icons.add),
         onPressed: () {
@@ -51,7 +50,6 @@ class _PlanScreenState extends State<PlanScreen> {
   }
 
   Widget _buildList() {
-    final plan = PlanProvider.of(context);
     return ListView.builder(
       controller: scrollController,
       itemBuilder: (context, index) => _buildTaskTile(plan!.tasks[index]),
