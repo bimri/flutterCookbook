@@ -31,6 +31,7 @@ class FuturePage extends StatefulWidget {
 }
 
 class _FuturePageState extends State<FuturePage> {
+  late Completer completer;
   late String result;
   @override
   Widget build(BuildContext context) {
@@ -44,7 +45,12 @@ class _FuturePageState extends State<FuturePage> {
           ElevatedButton(
             child: const Text('GO!'),
             onPressed: () {
-              count();
+              // count();
+              getNumber().then((value) {
+                setState(() {
+                  result = value.toString();
+                });
+              });
             },
           ),
           const Spacer(),
@@ -87,5 +93,25 @@ class _FuturePageState extends State<FuturePage> {
     setState(() {
       result = total.toString();
     });
+  }
+
+  /* 
+    A Completer creates Future objects that can be completed later. The Completer.future
+    that's set in the getNumber method is the Future that will be completed once complete is
+    called.
+  */
+  Future getNumber() {
+    completer = Completer<int>();
+    calculate();
+    return completer.future;
+  }
+
+  calculate() async {
+    try {
+      await Future.delayed(const Duration(seconds: 5));
+      completer.complete(42);
+    } catch (_) {
+      completer.completeError("an error was emitted");
+    }
   }
 }
