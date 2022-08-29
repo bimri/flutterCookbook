@@ -8,6 +8,8 @@ import 'package:http/http.dart' as http;
 // many cases, you need both to run your asynchronous code
 import 'package:async/async.dart';
 
+import 'navigation_first.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -23,7 +25,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: const LocationScreen(),//const FuturePage(),
+      home: const NavigationFirst(), //const FuturePage(),
     );
   }
 }
