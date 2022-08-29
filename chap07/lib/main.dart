@@ -8,6 +8,7 @@ import 'package:http/http.dart' as http;
 // many cases, you need both to run your asynchronous code
 import 'package:async/async.dart';
 
+import 'navigation_dialog.dart';
 import 'navigation_first.dart';
 
 void main() {
@@ -25,7 +26,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: const NavigationFirst(), //const FuturePage(),
+      home: const NavigationDialog(), //const FuturePage(),
     );
   }
 }
