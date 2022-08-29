@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:chap07/geolocation.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:http/http.dart' as http;
@@ -22,7 +23,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: const FuturePage(),
+      home: const LocationScreen(),//const FuturePage(),
     );
   }
 }
@@ -177,3 +178,16 @@ one after another.
 When all the Futures of the collection have finished executing, a FutureGroup returns its
 values as a List, in the same order they were added into the group.
 */
+
+// There are four core lifecycle methods that you can leverage in order to use Stateful widgets:
+    // initState() is only called once when the State is built. You should place the
+    // initial setup and starting values for your objects here. Whenever possible, you
+    // should prefer this to the build() method.
+    
+      // build() gets called each time something changes. This will destroy the UI and
+      // rebuild it from scratch.
+    
+        // deactivate() and dispose() are called when a widget is removed from the
+        // tree: use cases of these methods include closing a database connection or saving
+        // data before changing route.
+      
