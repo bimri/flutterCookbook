@@ -3,6 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:http/http.dart' as http;
 
+// dart:async and async/async.dart are different libraries: in
+// many cases, you need both to run your asynchronous code
+import 'package:async/async.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -46,11 +50,14 @@ class _FuturePageState extends State<FuturePage> {
             child: const Text('GO!'),
             onPressed: () {
               // count();
-              getNumber().then((value) {
-                setState(() {
-                  result = value.toString();
-                });
-              });
+
+              // getNumber().then((value) {
+              //   setState(() {
+              //     result = value.toString();
+              //   });
+              // });
+              
+              returnFB();
             },
           ),
           const Spacer(),
@@ -114,4 +121,32 @@ class _FuturePageState extends State<FuturePage> {
       completer.completeError("an error was emitted");
     }
   }
+
+  void returnFB() {
+    FutureGroup<int> futureGroup = FutureGroup<int>();
+
+    futureGroup.add(returnOneAsync());
+    futureGroup.add(returnTwoAsync());
+    futureGroup.add(returnThreeAsync());
+    futureGroup.close();
+    futureGroup.future.then((value) {
+      int total = 0;
+      for (var element in value) {
+        total += element;
+      }
+      setState(() {
+        result = total.toString();
+      });
+    });
+  }
 }
+
+
+/* 
+FutureGroup is a collection of Futures that can be run in parallel. As all the tasks run in
+parallel, the time of execution is generally faster than calling each asynchronous method
+one after another.
+
+When all the Futures of the collection have finished executing, a FutureGroup returns its
+values as a List, in the same order they were added into the group.
+*/
