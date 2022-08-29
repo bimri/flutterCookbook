@@ -67,7 +67,7 @@ class _FuturePageState extends State<FuturePage> {
                 setState(() {
                   result = onError;
                 });
-              }).whenComplete(() => print('Complete'));
+              }).whenComplete(() => debugPrint('Complete'));
             },
           ),
           const Spacer(),
@@ -152,6 +152,19 @@ class _FuturePageState extends State<FuturePage> {
 
   Future returnError() {
     throw ('Something dispecable happened!');
+  }
+
+  // handling errors with await/async is generally more readable
+  Future handleError() async {
+    try {
+      await returnError();
+    } catch (error) {
+      setState(() {
+        // result = error;
+      });
+    } finally {
+      debugPrint('Complete');
+    }
   }
 }
 
