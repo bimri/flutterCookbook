@@ -1,10 +1,7 @@
-import 'dart:ffi';
-
+import 'package:chap06/models/data_layer.dart';
 import 'package:chap06/plan_provider.dart';
 import 'package:chap06/views/plan_screen.dart';
 import 'package:flutter/material.dart';
-
-import '../models/plan.dart';
 
 class PlanCreatorScreen extends StatefulWidget {
   const PlanCreatorScreen({Key? key}) : super(key: key);
@@ -51,19 +48,18 @@ class _PlanCreatorScreenState extends State<PlanCreatorScreen> {
   // the field and will then reset the screen
   void addPlan() {
     final text = textController.text;
-    if (text.isEmpty) {
-      return;
-    }
 
-    final plan = Plan()..name = text;
-    PlanProvider.of(context).add(plan);
+    final controller = PlanProvider.of(context);
+    controller.addNewPlan(text);
+
     textController.clear();
+
     FocusScope.of(context).requestFocus(FocusNode());
     setState(() {});
   }
 
   Widget _buildMasterPlans() {
-
+    final plans = PlanProvider.of(context).plans;
     if (plans.isEmpty) {
       return Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -85,16 +81,23 @@ class _PlanCreatorScreenState extends State<PlanCreatorScreen> {
       itemCount: plans.length,
       itemBuilder: ((context, index) {
         final plan = plans[index];
-        return ListTile(
-          title: Text(plan.completenessMessage),
-          subtitle: Text(plan.completenessMessage),
-          onTap: () {
-            Navigator.of(context).push (
-              MaterialPageRoute(
-                builder: (_) => PlanScreen(plan: plan)
-              )
-            );
-          }
+        final task = Task();
+        return Dismissible(
+          key: ValueKey(plan),
+          background: Container(color: Colors.red),
+          direction: DismissDirection.endToStart,
+          onDismissed: (_) {
+            final controller = PlanProvider.of(context);
+            controller.deletePlan(plan, task);
+            setState(() {});
+          },
+          child: ListTile(
+              title: Text(plan.completenessMessage),
+              subtitle: Text(plan.completenessMessage),
+              onTap: () {
+                Navigator.of(context).push(
+                    MaterialPageRoute(builder: (_) => PlanScreen(plan: plan)));
+              }),
         );
       }),
     );

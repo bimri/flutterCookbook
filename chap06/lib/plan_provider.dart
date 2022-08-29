@@ -1,19 +1,21 @@
+import 'package:chap06/controllers/plan_controllers.dart';
 import 'package:flutter/material.dart';
-import './models/data_layer.dart';
+// import './models/data_layer.dart';
 
 // InheritedWidget is an abstract class
 // must implement the updateShouldNotify method
 class PlanProvider extends InheritedWidget {
+  final _controller = PlanController();
   // define an object that will store the plans
-  final _plan = <Plan>[];
+  // final _plan = <Plan>[];
 
   // default  unnamed constructor
   PlanProvider({Key? key, required Widget child})
       : super(key: key, child: child);
-   
+
   // look at the content of the old widget and
-  // determine if the child widgets need to be 
-  // notified that the data has changed 
+  // determine if the child widgets need to be
+  // notified that the data has changed
   @override
   bool updateShouldNotify(InheritedWidget oldWidget) {
     // return false and opt-out of this functionality
@@ -23,9 +25,9 @@ class PlanProvider extends InheritedWidget {
   // kick off the tree traversal process
   // Flutter will start from the widget that owns this context
   // and travel upward until it finds a PlanProvider.
-  static Plan of(BuildContext context) {
+  static PlanController of(BuildContext context) {
     final provider = context.dependOnInheritedWidgetOfExactType<PlanProvider>();
-    return provider?._plan;
+    return provider!._controller;
   }
 
   /*

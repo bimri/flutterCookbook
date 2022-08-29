@@ -1,3 +1,4 @@
+import 'package:chap06/plan_provider.dart';
 import 'package:flutter/material.dart';
 
 import '../models/data_layer.dart';
@@ -5,8 +6,6 @@ import '../models/data_layer.dart';
 class PlanScreen extends StatefulWidget {
   final Plan plan;
   const PlanScreen({Key? key, required this.plan}) : super(key: key);
-
-  Plan get plan => widget.plan;
 
   @override
   State<PlanScreen> createState() => _PlanScreenState();
@@ -34,7 +33,7 @@ class _PlanScreenState extends State<PlanScreen> {
       body: Column(
         children: <Widget>[
           Expanded(child: _buildList()),
-          SafeArea(child: Text(plan.completenessMessage))
+          SafeArea(child: Text(plan!.completenessMessage))
         ],
       ),
       floatingActionButton: _buildAddTaskButton(),
@@ -45,7 +44,8 @@ class _PlanScreenState extends State<PlanScreen> {
     return FloatingActionButton(
         child: Icon(Icons.add),
         onPressed: () {
-          plan.tasks.add(Task());
+          final controller = PlanProvider.of(context);
+          controller.createNewTask(plan!);
         });
   }
 
@@ -57,22 +57,34 @@ class _PlanScreenState extends State<PlanScreen> {
   }
 
   Widget _buildTaskTile(Task task) {
-    return ListTile(
-      leading: Checkbox(
-        value: task.complete,
-        onChanged: (selected) {
-          setState(() {
-            task.complete = selected!;
-          });
-        },
+    return Dismissible(
+      key: ValueKey(task),
+      background: Container(
+        color: Colors.red,
       ),
-      title: TextFormField(
-        initialValue: task.description,
-        onFieldSubmitted: (text) {
-          setState(() {
-            task.description = text;
-          });
-        },
+      direction: DismissDirection.endToStart,
+      onDismissed: (_) {
+        final controller = PlanProvider.of(context);
+        controller.deletePlan(plan!, task);
+        setState(() {});
+      },
+      child: ListTile(
+        leading: Checkbox(
+          value: task.complete,
+          onChanged: (selected) {
+            setState(() {
+              task.complete = selected!;
+            });
+          },
+        ),
+        title: TextFormField(
+          initialValue: task.description,
+          onFieldSubmitted: (text) {
+            setState(() {
+              task.description = text;
+            });
+          },
+        ),
       ),
     );
   }
