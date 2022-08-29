@@ -13,6 +13,8 @@ class PlanCreatorScreen extends StatefulWidget {
 class _PlanCreatorScreenState extends State<PlanCreatorScreen> {
   final textController = TextEditingController();
 
+  Task get task => task;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -81,7 +83,7 @@ class _PlanCreatorScreenState extends State<PlanCreatorScreen> {
       itemCount: plans.length,
       itemBuilder: ((context, index) {
         final plan = plans[index];
-        final task = Task();
+
         return Dismissible(
           key: ValueKey(plan),
           background: Container(color: Colors.red),
