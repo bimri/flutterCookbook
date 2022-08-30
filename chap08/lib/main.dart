@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'dart:convert';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import './pizza.dart';
 
@@ -33,13 +34,8 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  late int appCounter;
   String pizzaString = '';
-
-  @override
-  void initState() {
-    readJsonFile();
-    super.initState();
-  }
 
   // method transforms our List of Pizza objects back into a Json string by
   // calling the jsonEncode method again in the dart_convert library
@@ -52,26 +48,58 @@ class _MyHomePageState extends State<MyHomePage> {
     return json;
   }
 
+  Future readAndWritePreference() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    appCounter = prefs.getInt('appCounter')!;
+    // ignore: unnecessary_null_comparison
+    if (appCounter == null) {
+      appCounter = 1;
+    } else {
+      appCounter++;
+    }
+
+    await prefs.setInt('appCounter', appCounter);
+
+    setState(() {
+      appCounter = appCounter;
+    });
+  }
+
+  Future deletePreference() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.clear();
+    setState(() {
+      appCounter = 0;
+    });
+  }
+
+  @override
+  void initState() {
+    // readJsonFile();
+    readAndWritePreference();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      // body: FutureBuilder(
-      //     future: readJsonFile(),
-      //     builder: (BuildContext context, AsyncSnapshot<List<Pizza>> pizzas) {
-      //       return ListView.builder(
-      //           itemCount: (pizzas.data == null) ? 0 : pizzas.data?.length,
-      //           itemBuilder: (BuildContext context, int position) {
-      //             return ListTile(
-      //               title: Text(pizzas.data[position]?.pizzaName),
-      //               subtitle: Text(pizzas.data![position].description +
-      //                   ' -€ ' +
-      //                   pizzas.data[position]?.price.toString()),
-      //             );
-      //           });
-      //     }),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Text('You have opened the app $appCounter times.'),
+            ElevatedButton(
+              onPressed: () {
+                deletePreference();
+              },
+              child: const Text('Reset counter'),
+            )
+          ],
+        ),
+      ),
     );
   }
 
@@ -87,7 +115,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
     for (var pizza in myMap) {
       Pizza myPizza = Pizza.fromJsonOrNull(pizza);
-      if (myPizza != null) myPizzas.add(myPizza);
+      myPizzas.add(myPizza);
     }
 
     String json = convertToJSON(myPizzas);
