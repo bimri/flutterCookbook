@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:path_provider/path_provider.dart';
 
 import './pizza.dart';
 
@@ -36,6 +37,21 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   late int appCounter;
   String pizzaString = '';
+
+  String documentsPath = '';
+  String tempPath = '';
+
+  // Since the temporary directory can be cleared by the system at any time, you should use the
+  // documents directory whenever you need to store data that you need to save, and use the
+  // temporary directory as a sort of cache or session storage for your app.
+  Future getPaths() async {
+    final docDir = await getApplicationDocumentsDirectory();
+    final tempDir = await getTemporaryDirectory();
+    setState(() {
+      documentsPath = docDir.path;
+      tempPath = tempDir.path;
+    });
+  }
 
   // method transforms our List of Pizza objects back into a Json string by
   // calling the jsonEncode method again in the dart_convert library
@@ -76,29 +92,21 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     // readJsonFile();
-    readAndWritePreference();
+    // readAndWritePreference();
+    getPaths();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            Text('You have opened the app $appCounter times.'),
-            ElevatedButton(
-              onPressed: () {
-                deletePreference();
-              },
-              child: const Text('Reset counter'),
-            )
-          ],
-        ),
+      appBar: AppBar(title: const Text('Path Provider')),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          Text('Doc path: $documentsPath'),
+          Text('Temp path: $tempPath'),
+        ],
       ),
     );
   }
