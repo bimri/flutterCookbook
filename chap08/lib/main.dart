@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
+
+// using path_provider to retrieve the documents folder in the device and the dart:io
+// library to create a new file, write content, and read its content.
 import 'package:path_provider/path_provider.dart';
+import 'dart:io';
 
 import './pizza.dart';
 
@@ -40,6 +44,36 @@ class _MyHomePageState extends State<MyHomePage> {
 
   String documentsPath = '';
   String tempPath = '';
+
+  late File myFile;
+  String fileText = '';
+
+  Future<bool> writeFile() async {
+    try {
+      // writeAsString method is asychronous, but there is also a
+      // synchronous version of it called writeAsStringSync().
+      // Unless you have a very good reason to do otherwise, always prefer the asynchronous
+      // version of the method.
+      await myFile.writeAsString('Margherita, Capricciosa, Napoli');
+      return true;
+    } catch (e) {
+      return false;
+    }
+  }
+
+  Future<bool> readFile() async {
+    try {
+      // Read the file.
+      String fileContent = await myFile.readAsString();
+      setState(() {
+        fileText = fileContent;
+      });
+      return true;
+    } catch (e) {
+      // On error, return false.
+      return false;
+    }
+  }
 
   // Since the temporary directory can be cleared by the system at any time, you should use the
   // documents directory whenever you need to store data that you need to save, and use the
@@ -93,7 +127,12 @@ class _MyHomePageState extends State<MyHomePage> {
   void initState() {
     // readJsonFile();
     // readAndWritePreference();
-    getPaths();
+
+    getPaths().then((_) {
+      myFile = File('$documentsPath/pizzas.txt');
+      writeFile();
+    });
+
     super.initState();
   }
 
@@ -106,6 +145,11 @@ class _MyHomePageState extends State<MyHomePage> {
         children: [
           Text('Doc path: $documentsPath'),
           Text('Temp path: $tempPath'),
+          ElevatedButton(
+            child: const Text('Read File'),
+            onPressed: () => readFile(),
+          ),
+          Text(fileText),
         ],
       ),
     );
