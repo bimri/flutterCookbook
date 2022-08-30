@@ -86,7 +86,8 @@ class _MyHomePageState extends State<MyHomePage> {
     List<Pizza> myPizzas = [];
 
     for (var pizza in myMap) {
-      Pizza myPizza = Pizza.fromJson(pizza);
+      Pizza myPizza = Pizza.fromJsonOrNull(pizza);
+      if (myPizza != null) myPizzas.add(myPizza);
     }
 
     String json = convertToJSON(myPizzas);
