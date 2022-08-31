@@ -2,6 +2,7 @@ import 'package:chap08/httphelper.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'pizza_detail.dart';
 
 // using path_provider to retrieve the documents folder in the device and the dart:io
 // library to create a new file, write content, and read its content.
@@ -19,14 +20,17 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter JSON Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
-      home: const MyHomePage(title: 'JSON demo'),
-    );
+    return Scaffold(
+        appBar: AppBar(
+          title: const Text('Details'),
+        ),
+        body: const MyHomePage(title: 'JSON demo'),
+        floatingActionButton: FloatingActionButton(
+            child: Icon(Icons.add),
+            onPressed: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => const PizzaDetail()));
+            }));
   }
 }
 

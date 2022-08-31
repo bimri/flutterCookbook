@@ -16,6 +16,8 @@ class HttpHelper {
   final String path = 'pizzalist';
 
   get jsonResponse => null;
+  
+  String? get postPath => null;
 
   Future<List<Pizza>> getPizzaList() async {
     Uri url = Uri.https(authority, path);
@@ -32,4 +34,14 @@ class HttpHelper {
   // else {
   //   return null;
   // }
+
+  Future<String> postPizza(Pizza pizza) async {
+    String post = json.encode(pizza.toJson());
+    Uri url = Uri.https(authority, postPath!);
+    http.Response r = await http.post(
+      url,
+      body: post,
+    );
+    return r.body;
+  }
 }
