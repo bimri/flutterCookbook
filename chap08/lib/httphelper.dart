@@ -18,8 +18,10 @@ class HttpHelper {
   get jsonResponse => null;
 
   String? get postPath => null;
-  
+
   String? get putPath => null;
+
+  String? get deletePath => null;
 
   Future<List<Pizza>> getPizzaList() async {
     Uri url = Uri.https(authority, path);
@@ -57,4 +59,11 @@ class HttpHelper {
     return r.body;
   }
 
+  Future<String> deletePizza(int id) async {
+    Uri url = Uri.https(authority, deletePath!);
+    http.Response r = await http.delete(
+      url,
+    );
+    return r.body;
+  }
 }

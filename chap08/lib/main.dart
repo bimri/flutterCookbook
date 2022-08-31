@@ -25,23 +25,38 @@ class MyApp extends StatelessWidget {
         title: const Text('Details'),
       ),
       body: const MyHomePage(title: 'JSON demo'),
-      // floatingActionButton: FloatingActionButton(
-      //     child: const Icon(Icons.add),
-      //     onPressed: () {
-      //       Navigator.push(context,
-      //           MaterialPageRoute(builder: (context) => const PizzaDetail()));
-      //     }));
-
-      floatingActionButton: FloatingActionButton(
-          child: Icon(Icons.add),
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => PizzaDetail(Pizza(), false)),
-            );
-          }),
     );
+
+// return ListView.builder(
+// itemCount: (pizzas.data == null) ? 0 : pizzas.data.length,
+// itemBuilder: (BuildContext context, int position) {
+// return Dismissible(
+// onDismissed: (item) {
+// HttpHelper helper = HttpHelper();
+// pizzas.data.removeWhere((element) => element.id ==
+// pizzas.data[position].id);
+// helper.deletePizza(pizzas.data[position].id);
+// },
+// key: Key(position.toString()),);
+
+
+    // floatingActionButton: FloatingActionButton(
+    //     child: const Icon(Icons.add),
+    //     onPressed: () {
+    //       Navigator.push(context,
+    //           MaterialPageRoute(builder: (context) => const PizzaDetail()));
+    //     }));
+
+    //   floatingActionButton: FloatingActionButton(
+    //       child: Icon(Icons.add),
+    //       onPressed: () {
+    //         Navigator.push(
+    //           context,
+    //           MaterialPageRoute(
+    //               builder: (context) => PizzaDetail(Pizza(), false)),
+    //         );
+    //       }),
+    // );
 
     // return ListTile(
     //   title: Text(pizzas.data[position].pizzaName),
