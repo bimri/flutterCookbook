@@ -1,3 +1,4 @@
+import 'package:chap08/httphelper.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -47,6 +48,12 @@ class _MyHomePageState extends State<MyHomePage> {
 
   late File myFile;
   String fileText = '';
+
+  Future<List<Pizza>> callPizzas() async {
+    HttpHelper helper = HttpHelper();
+    List<Pizza> pizzas = await helper.getPizzaList();
+    return pizzas;
+  }
 
   Future<bool> writeFile() async {
     try {
@@ -128,6 +135,8 @@ class _MyHomePageState extends State<MyHomePage> {
     // readJsonFile();
     // readAndWritePreference();
 
+    callPizzas();
+
     getPaths().then((_) {
       myFile = File('$documentsPath/pizzas.txt');
       writeFile();
@@ -139,19 +148,23 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Path Provider')),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: [
-          Text('Doc path: $documentsPath'),
-          Text('Temp path: $tempPath'),
-          ElevatedButton(
-            child: const Text('Read File'),
-            onPressed: () => readFile(),
-          ),
-          Text(fileText),
-        ],
-      ),
+      appBar: AppBar(title: const Text('JSON')),
+      // body: Container(
+      //   child: FutureBuilder(
+      //       future: callPizzas(),
+      //       builder: (BuildContext context, AsyncSnapshot<List<Pizza>> pizzas) {
+      //         return ListView.builder(
+      //             itemCount: (pizzas.data == null) ? 0 : pizzas.data.length,
+      //             itemBuilder: (BuildContext context, int position) {
+      //               return ListTile(
+      //                 title: Text(pizzas.data[position]?.pizzaName),
+      //                 subtitle: Text(pizzas.data[position]?.description +
+      //                     ' - € ' +
+      //                     pizzas.data[position].price.toString()),
+      //               );
+      //             });
+      //       }),
+      // ),
     );
   }
 
