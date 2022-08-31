@@ -21,16 +21,41 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: const Text('Details'),
-        ),
-        body: const MyHomePage(title: 'JSON demo'),
-        floatingActionButton: FloatingActionButton(
-            child: Icon(Icons.add),
-            onPressed: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => const PizzaDetail()));
-            }));
+      appBar: AppBar(
+        title: const Text('Details'),
+      ),
+      body: const MyHomePage(title: 'JSON demo'),
+      // floatingActionButton: FloatingActionButton(
+      //     child: const Icon(Icons.add),
+      //     onPressed: () {
+      //       Navigator.push(context,
+      //           MaterialPageRoute(builder: (context) => const PizzaDetail()));
+      //     }));
+
+      floatingActionButton: FloatingActionButton(
+          child: Icon(Icons.add),
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => PizzaDetail(Pizza(), false)),
+            );
+          }),
+    );
+
+    // return ListTile(
+    //   title: Text(pizzas.data[position].pizzaName),
+    //   subtitle: Text(pizzas.data[position].description +
+    //       ' - € ' +
+    //       pizzas.data[position].price.toString()),
+    //   onTap: () {
+    //     Navigator.push(
+    //       context,
+    //       MaterialPageRoute(
+    //           builder: (context) => PizzaDetail(pizzas.data[position], false)),
+    //     );
+    //   },
+    // );
   }
 }
 

@@ -3,7 +3,9 @@ import 'pizza.dart';
 import 'httphelper.dart';
 
 class PizzaDetail extends StatefulWidget {
-  const PizzaDetail({Key? key}) : super(key: key);
+  final Pizza? pizza;
+  final bool? isNew;
+  const PizzaDetail(Pizza pizza, {Key? key, this.pizza, this.isNew}) : super(key: key);
 
   @override
   State<PizzaDetail> createState() => _PizzaDetailState();
@@ -16,6 +18,18 @@ class _PizzaDetailState extends State<PizzaDetail> {
   final TextEditingController txtPrice = TextEditingController();
   final TextEditingController txtImageUrl = TextEditingController();
   String postResult = '';
+
+  // @override
+  // void initState() {
+  //   if (!widget.isNew!) {
+  //     txtId.text = widget.pizza.id.toString();
+  //     txtName.text = widget.pizza.pizzaName!;
+  //     txtDescription.text = widget.pizza.description!;
+  //     txtPrice.text = widget.pizza.price!.toString();
+  //     txtImageUrl.text = widget.pizza.imageUrl!;
+  //   }
+  //   super.initState();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -99,4 +113,17 @@ class _PizzaDetailState extends State<PizzaDetail> {
     });
     return result;
   }
+
+  // Future savePizza() async {
+  //   String result = '';
+  //   if (widget.isNew!) {
+  //     result = await helper.postPizza(pizza);
+  //   } else {
+  //     result = await helper.putPizza(pizza);
+  //   }
+  //   setState(() {
+  //     postResult = result;
+  //   });
+  //   return result;
+  // }
 }
