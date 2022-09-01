@@ -1,0 +1,14 @@
+Injecting data transform into streams
+
+Sometimes, you may need to manipulate and transform the data that is being emitted from
+a stream before it gets to its final destination.
+
+This is extremely useful when you want to filter data based on any type of condition,
+validate it, modify data before showing it to your users, or process it to generate some new
+output.
+
+    Examples include converting a number into a string, or making a calculation, or omitting
+    data repetitions.
+
+In this recipe, you will inject StreamTransformers into Streams in order to map and
+filter data.

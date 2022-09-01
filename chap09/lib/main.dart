@@ -43,6 +43,7 @@ class StreamHomePage extends StatefulWidget {
 }
 
 class _StreamHomePageState extends State<StreamHomePage> {
+  StreamTransformer? transformer;
   int? lastNumber;
   StreamController? numberStreamController;
   NumberStream? numberStream;
@@ -104,7 +105,18 @@ stream when it has completed its tasks */
     numberStream = NumberStream();
     numberStreamController = numberStream?.controller;
     Stream? stream = numberStreamController?.stream;
-    stream?.listen((event) {
+
+    // StreamTransformer is an object that performs data transformations on a stream
+    // so that the listeners of the stream then receive the transformed data.
+    transformer = StreamTransformer<int, dynamic>.fromHandlers(
+      handleData: (value, sink) {
+        sink.add(value * 10);
+      },
+      handleError: ((error, stackTrace, sink) => sink.add(-1)),
+      handleDone: (sink) => sink.close(),
+    );
+
+    stream?.transform(transformer!).listen((event) {
       setState(() {
         lastNumber = event;
       });
