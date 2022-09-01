@@ -10,3 +10,12 @@ While changing a color isn't exactly something that strictly requires a stream, 
 explained here may apply to more complex scenarios, including getting flows of data from
 a web service. For instance, you could write a chat app, which updates the content based on
 what users write in real time, or an app that shows stock prices in real time.
+
+You can think of a stream as a one-way pipe, with two ends. One end of the pipe only
+allows you to insert data, and the other end is where data gets out.
+In Flutter, you can do the following:
+
+    - You can use a stream controller to control a stream.
+    - A stream controller has a sink property to insert new data.
+    - The stream property of StreamController is a way out of
+       StreamController.

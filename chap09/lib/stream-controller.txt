@@ -1,0 +1,2 @@
+In this recipe, you will create a stream controller to listen to and insert new events. This will
+show you how to fully control a stream.

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'dart:async';
 
 class ColorStream {
   Stream? colorStream;
@@ -25,3 +26,28 @@ class ColorStream {
 number of events that are returned: just 1 for Future, and 
 0 to many for Stream. 
 */
+
+/* StreamControllers create a linked Stream and Sink. While streams contain data
+emitted sequentially that can be received by any subscriber, Sinks are used to insert
+events. 
+
+A stream controller simplifies stream management, automatically creating a stream and a
+sink, and methods to control their events and features.*/
+
+class NumberStream {
+  StreamController<int> controller = StreamController<int>();
+
+  addNumberToSink(int newNumber) {
+    // sink is an instance of the class StreamSink
+    // which is the "way in" for a stream.
+    controller.sink.add(newNumber);
+  }
+
+  close() {
+    controller.close();
+  }
+
+  addError() {
+    controller.sink.addError('stream error');
+  }
+}
