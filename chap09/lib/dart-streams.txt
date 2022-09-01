@@ -1,0 +1,12 @@
+How to use Dart streams
+In this recipe's demo, you will change the background color of the app each second. You
+will create a list of five colors, and each second you will change the background color of a
+Container widget that fills the whole screen.
+
+The color information will be emitted from a stream of data. The main screen will need to
+listen to the Stream to get the current Color, and update the background accordingly.
+
+While changing a color isn't exactly something that strictly requires a stream, the principles
+explained here may apply to more complex scenarios, including getting flows of data from
+a web service. For instance, you could write a chat app, which updates the content based on
+what users write in real time, or an app that shows stock prices in real time.
