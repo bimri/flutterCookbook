@@ -1,0 +1,11 @@
+Importing packages and dependencies
+
+The three numbers of the version are denoted as MAJOR.MINOR.PATCH, where breaking
+changes happen only in major releases, after version 1.0.0. For versions before 1.0.0,
+breaking changes can happen at every minor release.
+
+So, when you write ^0.13.1, this means that any version is equal to or bigger than 0.13.1
+and lower than 0.14.0.
+
+When you write ^1.0.0, this means that any version is equal to or bigger than 1.0.0 and
+lower than 2.0.0.
