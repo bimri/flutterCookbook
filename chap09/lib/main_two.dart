@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'dart:async';
-import 'stream_two.dart';
+// import 'package:chap09/stream_two.dart';
+import 'countdown_bloc.dart';
 
 void main() {
   runApp(const MyApp());
@@ -12,7 +12,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Stream',
+      title: 'BLoC',
       theme: ThemeData(
         primarySwatch: Colors.deepPurple,
         visualDensity: VisualDensity.adaptivePlatformDensity,
@@ -30,37 +30,63 @@ class StreamHomePage extends StatefulWidget {
 }
 
 class _StreamHomePageState extends State<StreamHomePage> {
+  TimerBLoC? timerBloc;
+  int? seconds;
+
   late Stream<int?> numberStream;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Stream'),
+        title: const Text('BLoC'),
       ),
+
       body: StreamBuilder(
-          stream: numberStream,
-          initialData: 0,
-          builder: (context, snapshot) {
-            if (snapshot.hasError) {
-              debugPrint('Error!');
-            }
-            if (snapshot.hasData) {
-              return Center(
-                  child: Text(
+        stream: timerBloc?.secondsStream,
+        initialData: seconds,
+        builder: ((context, snapshot) {
+          if (snapshot.hasError) {
+            debugPrint('Error!');
+          }
+          if (snapshot.hasData) {
+            return Center(
+              child: Text(
                 snapshot.data.toString(),
                 style: const TextStyle(fontSize: 96),
-              ));
-            } else {
-              return const Center();
-            }
-          }),
+              ),
+            );
+          } else {
+            return const Center();
+          }
+        }),
+      ),
+      // body: StreamBuilder(
+      //     stream: numberStream,
+      //     initialData: 0,
+      //     builder: (context, snapshot) {
+      //       if (snapshot.hasError) {
+      //         debugPrint('Error!');
+      //       }
+      //       if (snapshot.hasData) {
+      //         return Center(
+      //             child: Text(
+      //           snapshot.data.toString(),
+      //           style: const TextStyle(fontSize: 96),
+      //         ));
+      //       } else {
+      //         return const Center();
+      //       }
+      //     }),
     );
   }
 
   @override
   void initState() {
-    numberStream = NumberStream().getNumbers();
+    timerBloc = TimerBLoC();
+    seconds = timerBloc?.seconds;
+    timerBloc?.countDown();
+    // numberStream = NumberStream().getNumbers();
     super.initState();
   }
 }

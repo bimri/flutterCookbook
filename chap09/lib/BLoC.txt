@@ -1,0 +1,27 @@
+Using the BLoC pattern
+
+When using the BLoC pattern, everything is a stream of events. A BLoC (which stands for
+Business LOgic Component) is a layer between any source of data and the user interface
+that will consume the data. Examples of sources include HTTP data retrieved from a web
+service, or JSON received from a database.
+
+The BLoC receives streams of data from the source, processes it as required by your
+business logic, and returns streams of data to its subscribers.
+
+The main reason for using BLoCs is separating the concern of the business logic of your app
+from the presentation that occurs with your widgets, and it is especially useful when your
+apps become more complex and need to share state in several different places.
+
+When you want to use a BLoC as a state management pattern, a number of steps need to be
+performed and these are as follows:
+    1. Create a class that will serve as the BLoC.
+    2. In the class, declare the data that needs to be updated in the app.
+    3. Set StreamControllers.
+    4. Create the getters for streams and sinks.
+    5. Add the logic of the BLoC.
+    6. Add a constructor in which you'll set the data.
+    7. Listen to changes.
+    8. Set a dispose method.
+    9. From the UI, create an instance of the BLoC.
+    10. Use StreamBuilder to build the widgets that will use the BLoC data.
+    11. Add events to the sink for any changes to the data (if required).
