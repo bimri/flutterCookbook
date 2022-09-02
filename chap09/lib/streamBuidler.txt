@@ -1,0 +1,12 @@
+Using StreamBuilder to create reactive user interfaces
+
+Streambuilder is a widget that listens to events emitted by a stream, and whenever an
+event is emitted, it rebuilds its descendants.
+
+StreamBuilder makes it extremely easy to build reactive user interfaces that update every
+time new data is available.
+
+
+In this recipe, we will update the text on the screen with StreamBuilder. This is very
+efficient compared to the update that happens with a setState method and its build call,
+as only the widgets contained in StreamBuilder are actually redrawn.

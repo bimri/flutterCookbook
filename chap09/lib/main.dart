@@ -15,7 +15,7 @@ import 'stream.dart';
 import 'dart:async';
 import 'dart:math';
 
-void main(List<String> args) {
+void main() {
   runApp(const MyApp());
 }
 
