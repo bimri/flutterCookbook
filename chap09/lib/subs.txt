@@ -1,0 +1,11 @@
+Subscribing to stream events
+
+In the previous recipes of this chapter, we used the listen method to get values from a
+stream. This generates a Subscription. 
+
+Subscriptions contain methods that allow you to
+listen to events from streams in a structured way.
+
+
+In this recipe, we will use Subscription to gracefully handle events, errors, and close the
+subscription.

@@ -43,6 +43,7 @@ class StreamHomePage extends StatefulWidget {
 }
 
 class _StreamHomePageState extends State<StreamHomePage> {
+  StreamSubscription? subscription;
   StreamTransformer? transformer;
   int? lastNumber;
   StreamController? numberStreamController;
@@ -68,7 +69,11 @@ class _StreamHomePageState extends State<StreamHomePage> {
             ElevatedButton(
               onPressed: () => addRandomNumber(),
               child: const Text('New Random Number'),
-            )
+            ),
+            ElevatedButton(
+              onPressed: () => stopStream(),
+              child: const Text('Stop Stream'),
+            ),
           ],
         ),
       ),
@@ -106,36 +111,64 @@ stream when it has completed its tasks */
     numberStreamController = numberStream?.controller;
     Stream? stream = numberStreamController?.stream;
 
-    // StreamTransformer is an object that performs data transformations on a stream
-    // so that the listeners of the stream then receive the transformed data.
-    transformer = StreamTransformer<int, dynamic>.fromHandlers(
-      handleData: (value, sink) {
-        sink.add(value * 10);
-      },
-      handleError: ((error, stackTrace, sink) => sink.add(-1)),
-      handleDone: (sink) => sink.close(),
-    );
-
-    stream?.transform(transformer!).listen((event) {
+    subscription = stream?.listen((event) {
       setState(() {
         lastNumber = event;
-      });
-    }).onError((error) {
-      setState(() {
-        lastNumber = -1;
       });
     });
     super.initState();
 
-    colorStream = ColorStream();
-    changeColor();
-    super.initState();
+    subscription?.onError((error) {
+      setState(() {
+        lastNumber = -1;
+      });
+    });
+
+    subscription?.onDone(() {
+      debugPrint('OnDone was called');
+    });
+
+    // StreamTransformer is an object that performs data transformations on a stream
+    // so that the listeners of the stream then receive the transformed data.
+    // transformer = StreamTransformer<int, dynamic>.fromHandlers(
+    //   handleData: (value, sink) {
+    //     sink.add(value * 10);
+    //   },
+    //   handleError: ((error, stackTrace, sink) => sink.add(-1)),
+    //   handleDone: (sink) => sink.close(),
+    // );
+
+    // stream?.transform(transformer!).listen((event) {
+    //   setState(() {
+    //     lastNumber = event;
+    //   });
+    // }).onError((error) {
+    //   setState(() {
+    //     lastNumber = -1;
+    //   });
+    // });
+    // super.initState();
+
+    // colorStream = ColorStream();
+    // changeColor();
+    // super.initState();
   }
 
-  addRandomNumber() {
+  // checks the isClosed value
+// of StreamController before add ing a number to the sink.
+  void addRandomNumber() {
     Random random = Random();
     int myNum = random.nextInt(10);
-    numberStream?.addNumberToSink(myNum);
-    // numberStream?.addError();
+    if (!numberStreamController!.isClosed) {
+      numberStream?.addNumberToSink(myNum);
+    } else {
+      setState(() {
+        lastNumber = -1;
+      });
+    }
+  }
+
+  void stopStream() {
+    numberStreamController?.close();
   }
 }
