@@ -1,0 +1,28 @@
+While using packages made by other developers can really boost your app creation speed,
+sometimes you need to create your own packages. Some of the main reasons for creating a
+new package are as follows:
+    - Modularity
+    - Code reuse
+    - Low-level interaction with a specific environment
+
+Packages help you write modular code, as you can include several files and dependencies
+in a single package, and just depend on it in your app. At the same time, code reuse is made
+extremely simple, as packages can be shared among different apps. Also, when you make
+changes to a package, you only need to make them in one place, and they will
+automatically cascade to all the apps that point to that package.
+
+There is a special type of package, called a plugin, that contains platform-specific
+implementations, for iOS, Android, and other systems. You generally create a plugin when
+you need to interact with specific low-level features of a system. Examples include
+hardware, such as the camera, or software, such as the contacts in a smartphone.
+
+In this recipe, you will create a simple Dart package that finds the area of a rectangle or a
+triangle.
+
+Packages enable the creation of modular code that can be shared easily. The simplest
+package should at least contain the following:
+    - A pubspec.yaml file, with the package name, version, and other metadata
+    - A lib folder, containing the code of the package
+
+A package can contain more than a single file in the lib folder, but must contain at least a
+single dart file with the name of the package; in our example, area.dart.
