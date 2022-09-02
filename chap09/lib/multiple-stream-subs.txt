@@ -1,0 +1,8 @@
+Allowing multiple stream subscriptions
+
+By default, each stream allows only a single subscription. 
+
+If you try to listen to the same subscription more than once, you get an error. 
+
+Flutter also has a specific kind of stream, called a 
+broadcast stream, which allows multiple listeners.
