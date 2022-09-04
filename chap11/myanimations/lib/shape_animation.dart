@@ -9,8 +9,12 @@ class ShapeAnimation extends StatefulWidget {
 
 class _ShapeAnimationState extends State<ShapeAnimation>
     with SingleTickerProviderStateMixin {
-  late Animation<double> animation;
-  double pos = 0;
+  double posTop = 0;
+  double posLeft = 0;
+  late Animation<double> animationTop;
+  late Animation<double> animationLeft;
+  // late Animation<double> animation;
+  // double pos = 0;
   AnimationController? controller;
 
   @override
@@ -20,10 +24,17 @@ class _ShapeAnimationState extends State<ShapeAnimation>
       vsync: this,
     );
 
-    animation = Tween<double>(begin: 0, end: 200).animate(controller!)
+    animationLeft = Tween<double>(begin: 0, end: 200).animate(controller!);
+    animationTop = Tween<double>(begin: 0, end: 400).animate(controller!)
       ..addListener(() {
         moveBall();
       });
+
+    // animation = Tween<double>(begin: 0, end: 200).animate(controller!)
+    //   ..addListener(() {
+    //     moveBall();
+    //   });
+
     super.initState();
   }
 
@@ -44,8 +55,8 @@ class _ShapeAnimationState extends State<ShapeAnimation>
       ),
       body: Stack(children: [
         Positioned(
-          left: pos,
-          top: pos,
+          left: posLeft,
+          top: posTop,
           child: const Ball(),
         )
       ]),
@@ -54,7 +65,9 @@ class _ShapeAnimationState extends State<ShapeAnimation>
 
   void moveBall() {
     setState(() {
-      pos = animation.value;
+      posTop = animationTop.value;
+      posLeft = animationLeft.value;
+      // pos = animation.value;
     });
   }
 }
