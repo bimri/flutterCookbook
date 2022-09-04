@@ -26,7 +26,7 @@ class _ShapeAnimationState extends State<ShapeAnimation>
     controller = AnimationController(
       duration: const Duration(seconds: 3),
       vsync: this,
-    );
+    )..repeat(reverse: true);
 
     animation = CurvedAnimation(
       parent: controller!,
@@ -55,15 +55,15 @@ class _ShapeAnimationState extends State<ShapeAnimation>
     return Scaffold(
       appBar: AppBar(
         title: const Text('Animation Controller'),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.run_circle),
-            onPressed: () {
-              controller?.reset();
-              controller?.forward();
-            },
-          )
-        ],
+        // actions: [
+        //   IconButton(
+        //     icon: const Icon(Icons.run_circle),
+        //     onPressed: () {
+        //       controller?.reset();
+        //       controller?.forward();
+        //     },
+        //   )
+        // ],
       ),
       body: SafeArea(
         child: LayoutBuilder(
@@ -71,11 +71,14 @@ class _ShapeAnimationState extends State<ShapeAnimation>
             maxLeft = constraints.maxWidth - ballSize;
             maxTop = constraints.maxHeight - ballSize;
             return Stack(children: [
-              Positioned(
-                left: posLeft,
-                top: posTop,
-                child: const Ball(),
-              )
+              AnimatedBuilder(
+                  animation: controller!,
+                  child: Positioned(left: posLeft, top: posTop, child: Ball()),
+                  builder: (BuildContext context, Widget? child) {
+                    moveBall();
+                    return Positioned(
+                        left: posLeft, top: posTop, child: const Ball());
+                  })
             ]);
           },
         ),
@@ -84,11 +87,8 @@ class _ShapeAnimationState extends State<ShapeAnimation>
   }
 
   void moveBall() {
-    setState(() {
-      posTop = animation.value * maxTop;
-      posLeft = animation.value * maxLeft;
-      // pos = animation.value;
-    });
+    posTop = animation.value * maxTop;
+    posLeft = animation.value * maxLeft;
   }
 }
 
@@ -105,3 +105,13 @@ class Ball extends StatelessWidget {
     );
   }
 }
+
+/* 
+The Flutter animation framework gives many choices when building animations. One of
+the most flexible ones is the AnimatedBuilder: this widget describes animations as part of
+a build method for another widget. It takes an animation, a child, and a builder. The
+optional child exists independently of the animation. An AnimatedBuilder listens to the
+notifications from an Animation object and calls its builder for each value provided by
+an Animation, only rebuilding its descendants: this is an efficient way of dealing with
+animations.
+*/
