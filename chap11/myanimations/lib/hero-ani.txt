@@ -1,0 +1,26 @@
+In order to implement a Hero animation, do the following:
+    Create the source Hero. A Hero requires a child, which defines how the hero
+    looks (an image or an Icon like in the example of this recipe, or any other relevant
+    widget), and a tag. You use the tag to uniquely identify the widget, and both
+    Source and Destination Hero widgets must share the same tag. In the example
+    in this recipe, we created the source hero with this instruction:
+        Hero(tag: 'cup$index', child: Icon(Icons.free_breakfast)),
+
+By concatenating the index to the "cup" string, we achieved a unique tag.
+
+    Create the destination Hero. This must contain the same tag as the source hero.
+    Its child should be similar to the destination but can change some properties,
+    such as its size and position.
+        We created the destination Hero with this instruction:
+            Hero(
+            tag: 'cup$index',
+            child: Icon(Icons.free_breakfast, size: 96,),
+            ),
+
+Use the Navigator object to get to the Route containing the destination Hero. You can use
+push or pop, as both will trigger the animation for each Hero that shares the same tag in
+the source and destination routes. In this recipe, in order to trigger the animation, you used
+this instruction:
+    Navigator.push(context, MaterialPageRoute(
+        builder: (context) => DetailScreen(index)
+    ));
