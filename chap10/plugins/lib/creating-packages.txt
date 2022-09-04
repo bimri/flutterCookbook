@@ -33,6 +33,7 @@ PART TWO
 The previous recipe works when your package is contained within your project. In this
 second part of the Creating your own package recipe, you will see how to create a package
 made of multiple files, and depend on a Git repository from the main project.
+<<<<<<< HEAD
 
 "area:
     git: https://github.com/simoales/area.git"
@@ -52,3 +53,5 @@ BSD licenses are open source licenses that allow almost any legitimate use
 of the software, cover the author from any liability, and only add minimal
 restrictions on the use and distribution of the software, both for private
 and commercial reasons.
+=======
+>>>>>>> ac4740c1e213fa6abfe35d2f914f1dec66bd7f94
