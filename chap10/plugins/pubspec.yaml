@@ -34,7 +34,7 @@ dependencies:
   
   http: ^0.13.5
   area:
-    path: packages/area
+    git: https://github.com/bimri/flutterCookbook/blob/ac4740c1e213fa6abfe35d2f914f1dec66bd7f94/chap10/plugins/packages/area/lib/area.git
 
 
   # The following adds the Cupertino Icons font to your application.

@@ -26,3 +26,17 @@ package should at least contain the following:
 
 A package can contain more than a single file in the lib folder, but must contain at least a
 single dart file with the name of the package; in our example, area.dart.
+
+
+PART TWO
+
+The previous recipe works when your package is contained within your project. In this
+second part of the Creating your own package recipe, you will see how to create a package
+made of multiple files, and depend on a Git repository from the main project.
+
+"area:
+    git: https://github.com/simoales/area.git"
+This syntax allows packages to be added from a git repository. This is useful for packages
+that you want to keep private within your team, or to depend on a package before it gets
+published to pub.dev. Being able to depend on a package available in a git repository
+allows you to simply share packages between projects and teams.
