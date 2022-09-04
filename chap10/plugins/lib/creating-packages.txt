@@ -40,3 +40,15 @@ This syntax allows packages to be added from a git repository. This is useful fo
 that you want to keep private within your team, or to depend on a package before it gets
 published to pub.dev. Being able to depend on a package available in a git repository
 allows you to simply share packages between projects and teams.
+
+
+PART THREE 
+Creating your own package (part 3)
+
+If you want to contribute to the Flutter community, you can share your packages in the
+pub.dev repository. In this recipe, you will see the steps required in order to achieve this.
+
+BSD licenses are open source licenses that allow almost any legitimate use
+of the software, cover the author from any liability, and only add minimal
+restrictions on the use and distribution of the software, both for private
+and commercial reasons.
