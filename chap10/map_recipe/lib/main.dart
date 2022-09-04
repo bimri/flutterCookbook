@@ -1,5 +1,5 @@
-import 'dart:html';
-
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
@@ -31,12 +31,21 @@ class MyMap extends StatefulWidget {
 }
 
 class _MyMapState extends State<MyMap> {
+  List<Marker> markers = [];
   LatLng? userPosition;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Google Maps')),
+      appBar: AppBar(
+        title: const Text('Google Maps'),
+        actions: [
+          IconButton(
+            onPressed: () => findPlaces(),
+            icon: const Icon(Icons.map),
+          ),
+        ],
+      ),
       body: FutureBuilder(
         future: findUserLocation(),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
@@ -45,6 +54,7 @@ class _MyMapState extends State<MyMap> {
               target: snapshot.data,
               zoom: 12,
             ),
+            markers: Set<Marker>.of(markers),
           );
         },
       ),
@@ -63,5 +73,39 @@ class _MyMapState extends State<MyMap> {
       userPosition = const LatLng(51.5285582, -0.24167);
     }
     return userPosition;
+  }
+
+  Future findPlaces() async {
+    const String key = '[Your Key Here]';
+    const placesUrl =
+        'https://maps.googleapis.com/maps/api/place/nearbysearch/json?';
+    String url =
+        '${placesUrl}key=$key&type=restaurant&location=${userPosition!.latitude},${userPosition?.longitude}&radius=1000';
+
+    final response = await http.get(Uri.parse(url));
+    if (response.statusCode == 200) {
+      final data = json.decode(response.body);
+      showMarkers(data);
+    } else {
+      throw Exception('Unable to retrieve places');
+    }
+  }
+
+  showMarkers(data) {
+    List places = data['results'];
+    for (var place in places) {
+      markers.add(Marker(
+          markerId: MarkerId(place['reference']),
+          position: LatLng(place['geometry']['location']['lat'],
+              place['geometry']['location']['lng']),
+          infoWindow:
+              InfoWindow(title: place['name'], snippet: place['vicinity'])));
+    }
+
+    setState(() {
+      markers = markers;
+    });
+    
+    markers.clear();
   }
 }
