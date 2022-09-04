@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import './shape_animation.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -15,7 +17,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.yellow,
       ),
-      home: const MyAnimation(title: 'Animation Demo'),
+      home: const ShapeAnimation(),
     );
   }
 }

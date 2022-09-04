@@ -15,3 +15,49 @@ When you use an AnimatedContainer the duration is required. Here is the instruct
 This specifies that each time a property of the AnimatedContainer changes, the transition
 between the old value and the new one will take 1 second.
 
+
+Designing animations part 1 – using the
+AnimationController
+
+In this recipe, you will perform the first step of making your widgets animatable, by
+conforming to a ticker Mixin and initializing an AnimationController. You will also add
+the appropriate listeners to make sure the build function reruns at every tick.
+
+A Tween (short for "in-between") contains the values of the property or properties that
+change during the animation.
+    animation = Tween<double>(begin: 0, end: 200).animate(controller);
+
+This will interpolate the numbers from 0 to 200 in the time specified in the
+AnimationController.
+
+An AnimationController controls one or more Animation objects. You can use it for
+several tasks: starting animations, specifying a duration, resetting, and repeating them. It
+generates a new value whenever the hardware is ready for a new frame: specifically, it
+generates numbers from 0 to 1 for a duration that you specify. It also needs to be disposed
+of when you finish using it.
+
+The vsync property requires a TickerProvider: a Ticker is a class that sends a signal at
+a regular interval, which ideally is 60 times per second when the device allows that frame
+rate. In our example, in the declaration of the State class, we used the following:
+    class _AnimatedSquareState extends State<AnimatedSquare> with
+        SingleTickerProviderStateMixin {
+
+The with keyword means we are using a Mixin, which is a class containing methods that
+can be used by other classes without inheriting from those other classes. Basically, we are
+including the class, not using it as a parent class.  
+
+The with SingleTickerProviderStateMixin means we are using a ticker provider that
+delivers a single ticker and is only suitable when you have a single
+AnimationController. When using multiple AnimationController objects, you should
+use a TickerProviderStateMixin instead.
+
+you call the moveBall method, which updates the position of the
+ball on the screen at each frame change. The moveBall method itself shows the change to
+the user calling the setState method:
+    void moveBall() {
+        setState(() {
+            pos = animation.value;
+        });
+    }
+The pos variable contains the left and top values for the Ball: this creates a linear
+movement that goes towards the bottom and right of the screen.
