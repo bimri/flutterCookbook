@@ -1,0 +1,17 @@
+Creating basic container animations
+
+In this recipe, you will place a square in the middle of the screen. When you click the
+IconButton in the AppBar, three animations will take place at the same time. The square
+in the following screenshot will change color, size, and the top margin:
+
+How it works...
+An AnimatedContainer is an animated version of a Container widget that changes its
+properties over a specific period of time. In this recipe, you have created a transition
+animation that changes the color, width, height, and margin of a widget.
+
+When you use an AnimatedContainer the duration is required. Here is the instruction:
+    AnimatedContainer(
+        duration: Duration(seconds: 1),
+This specifies that each time a property of the AnimatedContainer changes, the transition
+between the old value and the new one will take 1 second.
+
