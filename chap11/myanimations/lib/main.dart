@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import './shape_animation.dart';
+import 'animated_list.dart';
 
 void main() {
   runApp(const MyApp());
@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.yellow,
       ),
-      home:  const ShapeAnimation(),
+      home:  const AnimatedListScreen(),
     );
   }
 }
