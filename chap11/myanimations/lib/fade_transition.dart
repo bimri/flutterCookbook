@@ -4,13 +4,13 @@ class FadeTransitionScreen extends StatefulWidget {
   const FadeTransitionScreen({super.key});
 
   @override
-  _FadeTransitionScreenState createState() => _FadeTransitionScreenState();
+  State<FadeTransitionScreen> createState() => _FadeTransitionScreenState();
 }
 
 class _FadeTransitionScreenState extends State<FadeTransitionScreen>
     with SingleTickerProviderStateMixin {
   AnimationController? controller;
-  late Animation? animation;
+  late Animation<double> animation;
 
   @override
   void initState() {

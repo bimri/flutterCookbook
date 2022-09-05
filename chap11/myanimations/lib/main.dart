@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'animated_list.dart';
+import 'fade_transition.dart';
 
 void main() {
   runApp(const MyApp());
@@ -17,7 +18,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.yellow,
       ),
-      home:  const AnimatedListScreen(),
+      home: const FadeTransitionScreen(),
     );
   }
 }
