@@ -7,12 +7,8 @@ import '../models/book.dart';
 class HttpHelper {
   final String authority = 'www.googleapis.com';
   final String path = '/books/v1/volumes';
-  Map<String, dynamic> params = {
-    'q': 'flutter dart',
-    'maxResults': '40',
-  };
-
-  Future<List<Book>> getFlutterBooks() async {
+  Future<List<Book>> getBooks(String query) async {
+    Map<String, dynamic> params = {'q':query, 'maxResults': '40', };
     Uri uri = Uri.https(authority, path, params);
     Response result = await http.get(uri);
     if (result.statusCode == 200) {

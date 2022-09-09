@@ -41,6 +41,10 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   http: ^0.13.0
+  menubar:
+    git:
+      url: git://github.com/google/flutter-desktop-embedding.git
+      path: plugins/menubar
 
   
   

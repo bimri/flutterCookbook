@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../models/book.dart';
 import '../data/http_helper.dart';
+import 'package:menubar/menubar.dart';
 
 class BookListScreen extends StatefulWidget {
   const BookListScreen({super.key});
@@ -10,19 +11,26 @@ class BookListScreen extends StatefulWidget {
 }
 
 class _BookListScreenState extends State<BookListScreen> {
+  HttpHelper helper = HttpHelper();
+
   List<Color> bgColors = [];
   List<Book> books = [];
   bool isLargeScreen = false;
 
   @override
   void initState() {
-    HttpHelper helper = HttpHelper();
-    helper.getFlutterBooks().then((List<Book> value) {
-      int i;
+    int i;
+    addMenuBar();
+    helper = HttpHelper();
+    helper.getBooks('flutter').then((List<Book> value) {
       for (i = 0; i < value.length; i++) {
         bgColors.add(Colors.white);
       }
+      setState(() {
+        books = value;
+      });
     });
+
     super.initState();
   }
 
@@ -68,6 +76,33 @@ class _BookListScreenState extends State<BookListScreen> {
     setState(() {
       bgColors[index] = color;
     });
+  }
+
+  updateBooks(String key) {
+    helper.getBooks(key).then((List<Book> value) {
+      setState(() {
+        books = value;
+      });
+    });
+  }
+
+  void addMenuBar() {
+    setApplicationMenu([
+      Submenu(label: 'Search Keys', children: [
+        MenuItem(
+            label: 'Flutter',
+            enabled: true,
+            onClicked: () => updateBooks('flutter')),
+        MenuDivider(),
+        MenuItem(
+            label: 'C#', enabled: true, onClicked: () => updateBooks('c#')),
+        MenuDivider(),
+        MenuItem(
+            label: 'JavaScript',
+            enabled: true,
+            onClicked: () => updateBooks('javascript')),
+      ])
+    ]);
   }
 }
 
